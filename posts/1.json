@@ -1,5 +1,5 @@
 {
-  "id": 5,
+  "id": 1,
   "title": "확장 문법 안내 (이 글은 지워도 돼요)",
   "content": "# 확장 문법 모음\n\n기본 마크다운 위에 몇 가지 문법을 더 얹었습니다.\n\n## 이미지 크기 조절\n\n중괄호 안에 `small` `medium` `large` `full`을 넣으면 크기가 바뀝니다. 아무것도 안 쓰면 기본(전체 폭)입니다.\n\n![작은 이미지](../images/example.jpg){small}\n\n![중간 이미지](../images/example.jpg){medium}\n\n픽셀 단위로 직접 지정하려면 `{width=300}` 처럼 씁니다.\n\n## 이미지 정렬 + 캡션\n\n`left` `right` `center`로 정렬하고, `caption=\"설명\"`으로 캡션도 넣을 수 있습니다.\n\n![오른쪽 정렬 이미지](../images/example.jpg){small right caption=\"사진 아래 캡션이 들어갑니다\"}\n\n이 문단은 오른쪽에 떠 있는 이미지 옆으로 자연스럽게 흐릅니다. 이미지 정렬 문법은 짧은 캡션이나 인물 사진처럼 텍스트와 나란히 두고 싶을 때 씁니다.\n\n## 색깔 있는 텍스트 & 하이라이트\n\n{color:gold}골드색 텍스트{/color}, {color:red}빨간 텍스트{/color}, {color:#4A7A9E}원하는 hex 색상{/color}도 가능합니다.\n\n==형광펜처럼 하이라이트==도 가능하고, 위첨자는 이렇게 x^2^ 씁니다.\n\n## 콜아웃 박스\n\n:::tip\n이런 식으로 팁 박스를 만들 수 있어요. **마크다운 문법도 안에서 그대로** 동작합니다.\n:::\n\n:::warning\n주의가 필요한 내용은 이렇게 강조하세요.\n:::\n\n:::info\n참고 정보는 이런 박스에 담아두면 좋아요.\n:::\n\n## 컬럼(2단) 레이아웃\n\n:::columns\n**왼쪽 컬럼**\n\n비교하거나 나란히 보여주고 싶은 내용을 여기에 씁니다.\n---\n**오른쪽 컬럼**\n\n이미지, 목록, 코드블럭 등 뭐든 넣을 수 있어요.\n:::\n\n## 버튼형 링크\n\n[자세히 보기](https://example.com){button}\n\n## 코드블럭 (언어 표시 자동)\n\n```python\ndef greet(name):\n    return f\"안녕, {name}!\"\n\nprint(greet(\"세계\"))\n```\n\n---\n\n필요 없어지면 이 글의 파일(5.json)과 manifest.json 항목을 지우세요."
 }
