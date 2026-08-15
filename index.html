@@ -8,6 +8,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <style>
   :root{
     --bg: #EEF1EA;
@@ -88,7 +91,106 @@
   .closebtn:hover{ color:var(--ink); }
   .detail-date{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-faint); margin-bottom:10px; }
   .detail-title{ font-family:'Fraunces', serif; font-size:32px; font-weight:500; margin:0 0 16px; }
-  .detail-body{ font-size:16px; color:var(--ink); white-space:pre-wrap; }
+  .detail-body{ font-size:16px; color:var(--ink); }
+  .detail-body h1, .detail-body h2, .detail-body h3{
+    font-family:'Fraunces', serif; font-weight:500; line-height:1.3;
+    margin:28px 0 12px;
+  }
+  .detail-body h1{ font-size:26px; }
+  .detail-body h2{ font-size:22px; }
+  .detail-body h3{ font-size:19px; }
+  .detail-body p{ margin:0 0 16px; }
+  .detail-body ul, .detail-body ol{ margin:0 0 16px; padding-left:22px; }
+  .detail-body li{ margin-bottom:6px; }
+  .detail-body a{ color:var(--accent); border-bottom:1px solid var(--accent); }
+  .detail-body strong{ color:var(--ink); }
+  .detail-body blockquote{
+    margin:0 0 16px; padding:4px 18px; border-left:3px solid var(--accent-2);
+    color:var(--ink-soft); font-style:italic; background:rgba(92,122,94,0.06);
+  }
+  .detail-body hr{ border:none; border-top:1px solid var(--line); margin:28px 0; }
+  .detail-body img{
+    max-width:100%; height:auto; border-radius:6px; margin:8px 0 20px; display:block;
+  }
+  .detail-body code{
+    font-family:'IBM Plex Mono', monospace; font-size:0.88em;
+    background:var(--bg); border:1px solid var(--line); border-radius:3px;
+    padding:1px 6px;
+  }
+  .detail-body pre{
+    margin:0 0 20px; border-radius:6px; overflow-x:auto;
+    padding:16px 18px; font-size:13.5px; line-height:1.6;
+  }
+  .detail-body pre code{
+    background:none; border:none; padding:0; font-size:inherit;
+  }
+  .detail-body table{ width:100%; border-collapse:collapse; margin:0 0 20px; font-size:14.5px; }
+  .detail-body th, .detail-body td{ border:1px solid var(--line); padding:8px 10px; text-align:left; }
+  .detail-body th{ background:var(--bg); font-family:'IBM Plex Mono', monospace; font-size:12.5px; }
+  .detail-body mark{ background:rgba(184,134,46,0.25); color:var(--ink); padding:0 3px; border-radius:2px; }
+  .detail-body sup{ font-size:0.7em; color:var(--accent-2); }
+
+  /* image sizing & alignment */
+  .detail-body img.img-small{ max-width:220px; }
+  .detail-body img.img-medium{ max-width:420px; }
+  .detail-body img.img-large{ max-width:100%; }
+  .detail-body img.img-full{ width:100%; max-width:none; }
+  .detail-body img.img-left{ float:left; margin:4px 20px 16px 0; }
+  .detail-body img.img-right{ float:right; margin:4px 0 16px 20px; }
+  .detail-body img.img-center{ margin-left:auto; margin-right:auto; }
+  .detail-body .img-figure{ margin:8px 0 20px; }
+  .detail-body .img-figure img{ margin:0 0 8px; }
+  .detail-body .img-figure.img-left, .detail-body .img-figure.img-right{ max-width:45%; }
+  .detail-body figcaption{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-faint);
+    text-align:center;
+  }
+
+  /* callout boxes */
+  .detail-body .callout{
+    border:1px solid var(--line); border-left-width:4px; border-radius:4px;
+    padding:14px 18px; margin:0 0 20px; background:var(--card);
+  }
+  .detail-body .callout p:last-child{ margin-bottom:0; }
+  .detail-body .callout-label{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; font-weight:500;
+    letter-spacing:.04em; margin:0 0 8px; text-transform:uppercase;
+  }
+  .detail-body .callout-tip{ border-left-color:var(--accent-2); }
+  .detail-body .callout-tip .callout-label{ color:var(--accent-2); }
+  .detail-body .callout-info{ border-left-color:#4A7A9E; }
+  .detail-body .callout-info .callout-label{ color:#4A7A9E; }
+  .detail-body .callout-warning{ border-left-color:var(--accent); }
+  .detail-body .callout-warning .callout-label{ color:var(--accent); }
+  .detail-body .callout-note{ border-left-color:var(--ink-faint); }
+  .detail-body .callout-note .callout-label{ color:var(--ink-soft); }
+
+  /* columns */
+  .detail-body .columns{ display:flex; gap:24px; margin:0 0 20px; }
+  .detail-body .columns .col{ flex:1; min-width:0; }
+  .detail-body .columns .col p:last-child{ margin-bottom:0; }
+  @media (max-width:560px){
+    .detail-body .columns{ flex-direction:column; gap:8px; }
+  }
+
+  /* button links */
+  .detail-body .btn-link{
+    display:inline-block; background:var(--ink); color:var(--bg) !important;
+    border:none !important; padding:9px 18px; border-radius:var(--radius);
+    font-family:'IBM Plex Mono', monospace; font-size:13px; margin:4px 0 20px;
+    transition:background .25s ease;
+  }
+  .detail-body .btn-link:hover{ background:var(--accent-2); }
+
+  /* code block language label */
+  .detail-body .code-wrap{ position:relative; margin:0 0 20px; }
+  .detail-body .code-wrap pre{ margin:0; }
+  .detail-body .code-lang{
+    position:absolute; top:0; right:0; font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px; letter-spacing:.05em; color:var(--ink-faint); background:var(--bg);
+    border:1px solid var(--line); border-top:none; border-right:none;
+    padding:3px 9px; border-radius:0 6px 0 6px; text-transform:uppercase;
+  }
   .detail-tags{ display:flex; gap:8px; margin-top:24px; }
 
   @media (max-width:560px){
@@ -151,6 +253,90 @@
 
 <script>
   const postList = document.getElementById('postList');
+  marked.setOptions({ breaks: true, gfm: true });
+
+  const NAMED_COLORS = {
+    gold: '#B8862E', green: '#5C7A5E', red: '#A5473A',
+    ink: '#1B271F', blue: '#4A7A9E', gray: '#8B9689', grey: '#8B9689'
+  };
+
+  function parseAttrTokens(str){
+    const tokens = {}; const flags = [];
+    const re = /([a-zA-Z]+)="([^"]*)"|([a-zA-Z]+)=(\S+)|([a-zA-Z]+)/g;
+    let m;
+    while((m = re.exec(str)) !== null){
+      if(m[1]) tokens[m[1]] = m[2];
+      else if(m[3]) tokens[m[3]] = m[4];
+      else if(m[5]) flags.push(m[5]);
+    }
+    return { tokens, flags };
+  }
+
+  function processImages(md){
+    return md.replace(/!\[([^\]]*)\]\(([^\s)]+)\)(\{([^}]*)\})?/g, (full, alt, src, _, attrStr)=>{
+      let sizeClass = '', alignClass = '', caption = '', widthPx = '';
+      if(attrStr){
+        const { tokens, flags } = parseAttrTokens(attrStr);
+        flags.forEach(f=>{
+          if(['small','medium','large','full'].includes(f)) sizeClass = 'img-' + f;
+          if(['left','right','center'].includes(f)) alignClass = 'img-' + f;
+        });
+        if(tokens.caption) caption = tokens.caption;
+        if(tokens.width) widthPx = tokens.width;
+      }
+      const cls = [sizeClass, alignClass].filter(Boolean).join(' ');
+      const style = widthPx ? ` style="width:${widthPx}px;"` : '';
+      if(caption){
+        return `<figure class="img-figure ${cls}"><img src="${src}" alt="${alt}"${style}><figcaption>${caption}</figcaption></figure>`;
+      }
+      return `<img src="${src}" alt="${alt}" class="${cls}"${style}>`;
+    });
+  }
+
+  function processColorSpans(md){
+    return md.replace(/\{color:([#a-zA-Z0-9]+)\}([\s\S]*?)\{\/color\}/g, (full, color, text)=>{
+      const c = NAMED_COLORS[color.toLowerCase()] || color;
+      return `<span style="color:${c}">${text}</span>`;
+    });
+  }
+
+  function processHighlight(md){
+    return md.replace(/==([^=\n]+)==/g, '<mark>$1</mark>');
+  }
+
+  function processSuperscript(md){
+    return md.replace(/\^([^\^\s]+)\^/g, '<sup>$1</sup>');
+  }
+
+  function processButtons(md){
+    return md.replace(/\[([^\]]+)\]\(([^\s)]+)\)\{button\}/g, '<a href="$2" class="btn-link">$1</a>');
+  }
+
+  function processColumns(md){
+    return md.replace(/^:::columns\s*\n([\s\S]*?)\n:::\s*$/gm, (full, inner)=>{
+      const cols = inner.split(/^---$/m).map(c=> `<div class="col">${renderMarkdown(c.trim())}</div>`).join('');
+      return `<div class="columns">${cols}</div>`;
+    });
+  }
+
+  function processCallouts(md){
+    const labels = { tip: '💡 TIP', info: 'ℹ️ INFO', warning: '⚠️ WARNING', note: '📝 NOTE' };
+    return md.replace(/^:::(tip|info|warning|note)\s*\n([\s\S]*?)\n:::\s*$/gm, (full, type, inner)=>{
+      return `<div class="callout callout-${type}"><p class="callout-label">${labels[type]}</p>${renderMarkdown(inner.trim())}</div>`;
+    });
+  }
+
+  function renderMarkdown(md){
+    let out = md;
+    out = processColumns(out);
+    out = processCallouts(out);
+    out = processButtons(out);
+    out = processImages(out);
+    out = processColorSpans(out);
+    out = processHighlight(out);
+    out = processSuperscript(out);
+    return marked.parse(out);
+  }
 
   document.querySelectorAll('[data-close]').forEach(btn=>{
     btn.addEventListener('click', ()=> document.getElementById(btn.dataset.close).classList.remove('show'));
@@ -226,7 +412,23 @@
         return res.json();
       })
       .then(full=>{
-        bEl.textContent = full.content || '(내용 없음)';
+        bEl.innerHTML = renderMarkdown(full.content || '(내용 없음)');
+        bEl.querySelectorAll('pre code').forEach(block=>{
+          hljs.highlightElement(block);
+          const langClass = [...block.classList].find(c=> c.startsWith('language-'));
+          const lang = langClass ? langClass.replace('language-','') : '';
+          const pre = block.parentElement;
+          const wrap = document.createElement('div');
+          wrap.className = 'code-wrap';
+          pre.replaceWith(wrap);
+          wrap.appendChild(pre);
+          if(lang){
+            const label = document.createElement('span');
+            label.className = 'code-lang';
+            label.textContent = lang;
+            wrap.appendChild(label);
+          }
+        });
       })
       .catch(err=>{
         bEl.textContent = '본문을 불러오지 못했어요. ' + err.message;
