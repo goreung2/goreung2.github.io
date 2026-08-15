@@ -1,309 +1,1206 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LOG.</title>
-  <!-- Pretendard 폰트 -->
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  
-  <style>
-    /* 1. 디자인 시스템 (단정한 모노톤) */
-    :root {
-      --bg: #fcfcfc;
-      --card-bg: #ffffff;
-      --text-main: #111111;
-      --text-sub: #666666;
-      --text-muted: #999999;
-      --border: #eeeeee;
-      --hover-border: #111111;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    [data-theme="dark"] {
-      --bg: #0e0e11;
-      --card-bg: #15151a;
-      --text-main: #f3f3f5;
-      --text-sub: #90909a;
-      --text-muted: #555560;
-      --border: #22222a;
-      --hover-border: #f3f3f5;
-    }
+    <title>MY BLOG</title>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <style>
+        /* =========================
+           기본 설정
+        ========================== */
 
-    body {
-      font-family: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
-      background-color: var(--bg);
-      color: var(--text-main);
-      line-height: 1.6;
-      word-break: keep-all;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      -webkit-font-smoothing: antialiased;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .layout {
-      max-width: 620px;
-      margin: 0 auto;
-      padding: 2.5rem 1.25rem 6rem 1.25rem;
-    }
+        :root {
+            --bg: #0b0d12;
+            --card: rgba(255, 255, 255, 0.055);
+            --card-hover: rgba(255, 255, 255, 0.09);
+            --text: #f5f7fb;
+            --sub: #9299a8;
+            --line: rgba(255, 255, 255, 0.08);
+            --accent: #7c5cff;
+            --accent2: #00d4ff;
+        }
 
-    /* 2. 애니메이션 정의 */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    /* 초기 진입 애니메이션 (순차적 등장) */
-    .animate-item {
-      opacity: 0;
-      animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
+        body {
+            font-family:
+                Inter,
+                Pretendard,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
 
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.25s; }
-    .delay-3 { animation-delay: 0.4s; }
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-    /* 3. Header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-    }
+        button,
+        input {
+            font: inherit;
+        }
 
-    .brand {
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      text-decoration: none;
-      color: var(--text-main);
-    }
+        button {
+            cursor: pointer;
+        }
 
-    .theme-toggle {
-      background: none;
-      border: 1px solid var(--border);
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      color: var(--text-sub);
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.25s ease;
-    }
+        /* =========================
+           배경
+        ========================== */
 
-    .theme-toggle:hover {
-      border-color: var(--text-main);
-      color: var(--text-main);
-      transform: translateY(-1px);
-    }
+        body::before {
+            content: "";
+            position: fixed;
+            width: 500px;
+            height: 500px;
 
-    .theme-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: var(--text-main);
-      transition: transform 0.3s ease;
-    }
+            background: var(--accent);
+            filter: blur(160px);
+            opacity: 0.15;
 
-    /* 4. Intro Section */
-    .intro {
-      padding: 3.5rem 0 2.5rem 0;
-    }
+            top: -200px;
+            left: -150px;
 
-    .intro-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
-      line-height: 1.4;
-    }
+            pointer-events: none;
+            z-index: -2;
+        }
 
-    .intro-desc {
-      color: var(--text-sub);
-      font-size: 1rem;
-      line-height: 1.6;
-    }
+        body::after {
+            content: "";
+            position: fixed;
+            width: 500px;
+            height: 500px;
 
-    /* 5. Post List & Micro Interactions */
-    .feed-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-    }
+            background: var(--accent2);
+            filter: blur(180px);
+            opacity: 0.08;
 
-    .post-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+            right: -200px;
+            bottom: -200px;
 
-    .post-card {
-      display: block;
-      text-decoration: none;
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      border-radius: 12px;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                  border-color 0.3s ease,
-                  box-shadow 0.3s ease;
-    }
+            pointer-events: none;
+            z-index: -2;
+        }
 
-    /* 카드 호버 인터랙션 (미세하게 커지면서 테두리 강조) */
-    .post-card:hover {
-      transform: translateY(-3px) scale(1.005);
-      border-color: var(--hover-border);
-      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.06);
-    }
+        /* =========================
+           네비게이션
+        ========================== */
 
-    .post-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 0.6rem;
-    }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
 
-    .post-tag {
-      background-color: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--text-sub);
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.75rem;
-    }
+            width: 100%;
+            height: 72px;
 
-    .post-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text-main);
-      letter-spacing: -0.02em;
-      margin-bottom: 0.4rem;
-      transition: color 0.2s ease;
-    }
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-    .post-desc {
-      font-size: 0.9rem;
-      color: var(--text-sub);
-      line-height: 1.5;
-    }
+            padding: 0 7%;
 
-    /* 6. Footer */
-    .footer {
-      margin-top: 5rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
+            background: rgba(11, 13, 18, 0.65);
+            backdrop-filter: blur(20px);
 
-    .footer a {
-      color: inherit;
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
+            border-bottom: 1px solid transparent;
 
-    .footer a:hover {
-      color: var(--text-main);
-    }
-  </style>
+            z-index: 100;
+            transition: 0.3s;
+        }
+
+        nav.scrolled {
+            border-bottom-color: var(--line);
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+
+            border: 1px solid var(--line);
+            background: var(--card);
+            color: var(--text);
+
+            border-radius: 12px;
+
+            transition: 0.25s;
+        }
+
+        .nav-btn:hover {
+            background: var(--card-hover);
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           Hero
+        ========================== */
+
+        .hero {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+
+            padding: 120px 7% 80px;
+
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 850px;
+
+            animation: heroIn 1s ease forwards;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 13px;
+
+            border: 1px solid var(--line);
+            background: var(--card);
+
+            border-radius: 999px;
+
+            color: var(--sub);
+            font-size: 13px;
+
+            margin-bottom: 25px;
+        }
+
+        .badge::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+
+            background: #54e38e;
+            border-radius: 50%;
+
+            box-shadow: 0 0 15px #54e38e;
+        }
+
+        .hero h1 {
+            font-size: clamp(45px, 7vw, 88px);
+            line-height: 1.02;
+            letter-spacing: -5px;
+
+            margin-bottom: 25px;
+        }
+
+        .gradient {
+            background: linear-gradient(
+                110deg,
+                #fff,
+                #9f8cff,
+                #5be7ff
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 650px;
+
+            color: var(--sub);
+            font-size: 18px;
+            line-height: 1.7;
+
+            margin-bottom: 35px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .primary {
+            border: none;
+
+            padding: 13px 20px;
+
+            border-radius: 13px;
+
+            background: linear-gradient(
+                135deg,
+                var(--accent),
+                #5b8cff
+            );
+
+            color: white;
+            font-weight: 700;
+
+            box-shadow: 0 10px 30px rgba(124, 92, 255, 0.25);
+
+            transition: 0.25s;
+        }
+
+        .primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(124, 92, 255, 0.35);
+        }
+
+        .secondary {
+            padding: 13px 20px;
+
+            border-radius: 13px;
+
+            border: 1px solid var(--line);
+            background: var(--card);
+
+            color: var(--text);
+
+            transition: 0.25s;
+        }
+
+        .secondary:hover {
+            background: var(--card-hover);
+            transform: translateY(-3px);
+        }
+
+        /* =========================
+           Blog
+        ========================== */
+
+        .container {
+            width: min(1100px, 86%);
+            margin: auto;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            margin-bottom: 35px;
+        }
+
+        .section-title small {
+            color: var(--accent2);
+            font-weight: 700;
+        }
+
+        .section-title h2 {
+            font-size: 38px;
+            margin-top: 8px;
+            letter-spacing: -2px;
+        }
+
+        /* 검색 */
+
+        .search {
+            width: 100%;
+
+            padding: 16px 20px;
+
+            background: var(--card);
+            border: 1px solid var(--line);
+
+            color: white;
+
+            border-radius: 15px;
+            outline: none;
+
+            margin-bottom: 30px;
+
+            transition: 0.25s;
+        }
+
+        .search:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.1);
+        }
+
+        /* 글 카드 */
+
+        .posts {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .post {
+            background: var(--card);
+
+            border: 1px solid var(--line);
+
+            border-radius: 20px;
+
+            padding: 25px;
+
+            min-height: 250px;
+
+            display: flex;
+            flex-direction: column;
+
+            transition:
+                transform 0.3s,
+                background 0.3s,
+                border 0.3s;
+
+            opacity: 0;
+            transform: translateY(35px);
+        }
+
+        .post.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .post:hover {
+            transform: translateY(-8px);
+
+            background: var(--card-hover);
+
+            border-color:
+                rgba(124, 92, 255, 0.35);
+        }
+
+        .post-tag {
+            display: inline-block;
+
+            color: var(--accent2);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 18px;
+        }
+
+        .post h3 {
+            font-size: 22px;
+            line-height: 1.35;
+
+            margin-bottom: 12px;
+        }
+
+        .post p {
+            color: var(--sub);
+
+            font-size: 14px;
+            line-height: 1.6;
+
+            flex: 1;
+        }
+
+        .post-date {
+            color: #686f7d;
+            font-size: 12px;
+
+            margin-top: 20px;
+        }
+
+        /* =========================
+           About
+        ========================== */
+
+        .about {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 30px;
+        }
+
+        .about-card {
+            padding: 35px;
+
+            border: 1px solid var(--line);
+
+            background: var(--card);
+
+            border-radius: 22px;
+
+            transition: 0.3s;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .about-card h3 {
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .about-card p {
+            color: var(--sub);
+            line-height: 1.8;
+        }
+
+        /* =========================
+           Footer
+        ========================== */
+
+        footer {
+            padding: 50px 7%;
+
+            border-top: 1px solid var(--line);
+
+            color: #6f7684;
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           Modal
+        ========================== */
+
+        .modal-bg {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.7);
+
+            backdrop-filter: blur(10px);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            opacity: 0;
+            pointer-events: none;
+
+            transition: 0.3s;
+
+            z-index: 200;
+        }
+
+        .modal-bg.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            width: min(650px, 100%);
+
+            background: #12151c;
+
+            border: 1px solid var(--line);
+
+            border-radius: 22px;
+
+            padding: 30px;
+
+            transform: translateY(30px) scale(0.97);
+
+            transition: 0.3s;
+        }
+
+        .modal-bg.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .modal-close {
+            width: 35px;
+            height: 35px;
+
+            border-radius: 10px;
+
+            border: 1px solid var(--line);
+
+            background: var(--card);
+
+            color: white;
+        }
+
+        .modal-content {
+            color: var(--sub);
+            line-height: 1.8;
+        }
+
+        /* =========================
+           Animation
+        ========================== */
+
+        @keyframes heroIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+           모바일
+        ========================== */
+
+        @media (max-width: 800px) {
+
+            .posts {
+                grid-template-columns: 1fr;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                letter-spacing: -3px;
+            }
+
+            .hero {
+                min-height: 90vh;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div class="layout">
-    <!-- 헤더 -->
-    <header class="header animate-item delay-1">
-      <a href="#" class="brand">LOG.</a>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-        <span class="theme-dot"></span>
-        <span id="theme-text">Dark</span>
-      </button>
+
+    <!-- =========================
+         NAV
+    ========================== -->
+
+    <nav id="nav">
+
+        <div class="logo">
+            MY<span>.</span>BLOG
+        </div>
+
+        <div class="nav-right">
+
+            <button
+                class="nav-btn"
+                id="themeBtn"
+                title="테마"
+            >
+                ☀️
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                Currently building something
+            </div>
+
+            <h1>
+                생각을 기록하고<br>
+                <span class="gradient">
+                    코드를 만든다.
+                </span>
+            </h1>
+
+            <p>
+                개발하면서 배우는 것들,
+                재미있는 아이디어와 프로젝트를 기록하는
+                작은 공간입니다.
+            </p>
+
+            <div class="hero-actions">
+
+                <button
+                    class="primary"
+                    onclick="scrollToPosts()"
+                >
+                    글 보러가기 →
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="openAbout()"
+                >
+                    About
+                </button>
+
+            </div>
+
+        </div>
+
     </header>
 
-    <!-- 소개 영역 -->
-    <section class="intro animate-item delay-2">
-      <h1 class="intro-title">불필요한 요소를 덜어낸<br />생각과 기록의 공간.</h1>
-      <p class="intro-desc">프론트엔드 개발자 홍길동의 개인 블로그입니다. 디테일과 인터페이스에 대해 이야기합니다.</p>
-    </section>
 
-    <!-- 피드 영역 -->
-    <main class="animate-item delay-3">
-      <div class="feed-title">Articles</div>
-      <div class="post-list">
-        
-        <a href="#" class="post-card">
-          <div class="post-meta">
-            <time>2026. 08. 15</time>
-            <span class="post-tag">Design System</span>
-          </div>
-          <h2 class="post-title">절제된 모던 인터페이스 디자인</h2>
-          <p class="post-desc">화려한 그래디언트 대신 여백과 타이포그래피의 밀도만으로 완성도 높이는 방법.</p>
-        </a>
+    <!-- =========================
+         BLOG
+    ========================== -->
 
-        <a href="#" class="post-card">
-          <div class="post-meta">
-            <time>2026. 08. 10</time>
-            <span class="post-tag">Engineering</span>
-          </div>
-          <h2 class="post-title">Single-file 구조로 파일 경로 오류 완전히 차단하기</h2>
-          <p class="post-desc">GitHub Pages 배포 시 빈번히 발생하는 CSS 로딩 실패 원인과 대처법.</p>
-        </a>
+    <main>
 
-      </div>
+        <section id="posts">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <small>RECENT POSTS</small>
+
+                    <h2>
+                        최근 글
+                    </h2>
+
+                </div>
+
+                <input
+                    class="search"
+                    id="search"
+                    type="text"
+                    placeholder="🔎  글 검색하기..."
+                >
+
+                <div
+                    class="posts"
+                    id="postList"
+                >
+
+                    <!-- JS에서 자동 생성 -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ABOUT
+        ========================== -->
+
+        <section>
+
+            <div class="container">
+
+                <div class="about">
+
+                    <div class="about-card">
+
+                        <h3>
+                            👋 About Me
+                        </h3>
+
+                        <p>
+                            안녕하세요.
+                            이것저것 만들면서 삽질하는 개발자 지망생입니다.
+                            <br><br>
+                            코딩하다가 발생하는 버그와
+                            새로운 아이디어를 기록합니다.
+                        </p>
+
+                    </div>
+
+                    <div class="about-card">
+
+                        <h3>
+                            ⚡ What I Do
+                        </h3>
+
+                        <p>
+                            Python · JavaScript · HTML · CSS
+                            <br><br>
+                            작은 웹 프로젝트부터
+                            Discord 봇까지 이것저것 만듭니다.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
     </main>
 
-    <!-- 푸터 -->
-    <footer class="footer animate-item delay-3">
-      <p>© 2026 LOG.</p>
-      <div>
-        <a href="https://github.com" target="_blank">GitHub</a>
-      </div>
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+        © 2026 MY.BLOG — Made with HTML, CSS & JavaScript.
     </footer>
-  </div>
 
-  <!-- 인라인 스크립트 -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const toggleBtn = document.getElementById('theme-toggle');
-      const themeText = document.getElementById('theme-text');
-      
-      // 저장된 테마 불러오기
-      const savedTheme = localStorage.getItem('theme');
-      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      let currentTheme = savedTheme || (systemDark ? 'dark' : 'light');
 
-      function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        themeText.textContent = theme === 'dark' ? 'Light' : 'Dark';
-      }
+    <!-- =========================
+         MODAL
+    ========================== -->
 
-      applyTheme(currentTheme);
+    <div
+        class="modal-bg"
+        id="modalBg"
+    >
 
-      toggleBtn.addEventListener('click', () => {
-        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-        applyTheme(currentTheme);
-        localStorage.setItem('theme', currentTheme);
-      });
-    });
-  </script>
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <h2 id="modalTitle">
+                    제목
+                </h2>
+
+                <button
+                    class="modal-close"
+                    onclick="closeModal()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <div
+                class="modal-content"
+                id="modalContent"
+            >
+                내용
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* =========================
+           블로그 글 데이터
+        ========================== */
+
+        const posts = [
+
+            {
+                title: "HTML 하나로 블로그 만들기",
+                tag: "WEB",
+                date: "2026.08.15",
+                content:
+                    "HTML 파일 하나에 CSS와 JavaScript를 전부 넣어서 간단한 블로그를 만들어봤다."
+            },
+
+            {
+                title: "CSS 애니메이션이 생각보다 재밌다",
+                tag: "CSS",
+                date: "2026.08.12",
+                content:
+                    "transition과 transform만 잘 사용해도 웹사이트가 상당히 고급스러워진다."
+            },
+
+            {
+                title: "JavaScript로 검색 기능 만들기",
+                tag: "JAVASCRIPT",
+                date: "2026.08.08",
+                content:
+                    "배열과 filter를 이용하면 별도의 서버 없이도 간단한 글 검색 기능을 구현할 수 있다."
+            },
+
+            {
+                title: "개발하면서 자주 하는 실수",
+                tag: "DEV",
+                date: "2026.08.03",
+                content:
+                    "코드 작성 전에 구조를 생각하지 않으면 나중에 유지보수가 지옥이 된다."
+            },
+
+            {
+                title: "나만의 프로젝트 아이디어",
+                tag: "PROJECT",
+                date: "2026.07.28",
+                content:
+                    "작지만 직접 만들어보면서 배울 수 있는 프로젝트들을 정리해봤다."
+            },
+
+            {
+                title: "Discord 봇 개발 기록",
+                tag: "PYTHON",
+                date: "2026.07.20",
+                content:
+                    "Python과 discord.py를 사용해서 간단한 Discord 봇을 만들어본 기록."
+            }
+
+        ];
+
+
+        /* =========================
+           글 렌더링
+        ========================== */
+
+        const postList =
+            document.getElementById("postList");
+
+
+        function renderPosts(list) {
+
+            postList.innerHTML = "";
+
+            list.forEach((post, index) => {
+
+                const article =
+                    document.createElement("article");
+
+                article.className = "post";
+
+                article.innerHTML = `
+
+                    <span class="post-tag">
+                        #${post.tag}
+                    </span>
+
+                    <h3>
+                        ${post.title}
+                    </h3>
+
+                    <p>
+                        ${post.content}
+                    </p>
+
+                    <span class="post-date">
+                        ${post.date}
+                    </span>
+
+                `;
+
+                article.onclick = () =>
+                    openPost(post);
+
+                postList.appendChild(article);
+
+                /*
+                    카드마다 살짝 다른 시간에 등장
+                */
+
+                setTimeout(() => {
+
+                    article.classList.add("show");
+
+                }, index * 80);
+
+            });
+
+        }
+
+
+        renderPosts(posts);
+
+
+        /* =========================
+           검색
+        ========================== */
+
+        const search =
+            document.getElementById("search");
+
+
+        search.addEventListener(
+            "input",
+            () => {
+
+                const keyword =
+                    search.value
+                        .toLowerCase()
+                        .trim();
+
+                const filtered =
+                    posts.filter(post =>
+
+                        post.title
+                            .toLowerCase()
+                            .includes(keyword)
+
+                        ||
+
+                        post.content
+                            .toLowerCase()
+                            .includes(keyword)
+
+                        ||
+
+                        post.tag
+                            .toLowerCase()
+                            .includes(keyword)
+
+                    );
+
+                renderPosts(filtered);
+
+            }
+        );
+
+
+        /* =========================
+           글 모달
+        ========================== */
+
+        const modalBg =
+            document.getElementById("modalBg");
+
+        const modalTitle =
+            document.getElementById("modalTitle");
+
+        const modalContent =
+            document.getElementById("modalContent");
+
+
+        function openPost(post) {
+
+            modalTitle.textContent =
+                post.title;
+
+            modalContent.innerHTML = `
+                <p>
+                    ${post.content}
+                </p>
+
+                <br>
+
+                <small>
+                    ${post.date} · #${post.tag}
+                </small>
+            `;
+
+            modalBg.classList.add("active");
+
+        }
+
+
+        function closeModal() {
+
+            modalBg.classList.remove("active");
+
+        }
+
+
+        modalBg.addEventListener(
+            "click",
+            e => {
+
+                if (e.target === modalBg) {
+                    closeModal();
+                }
+
+            }
+        );
+
+
+        /* =========================
+           About
+        ========================== */
+
+        function openAbout() {
+
+            modalTitle.textContent =
+                "About this blog";
+
+            modalContent.innerHTML = `
+                <p>
+                    이 사이트는 HTML 하나로 만든
+                    작은 개인 블로그 예제입니다.
+                </p>
+
+                <br>
+
+                <p>
+                    CSS와 JavaScript도 전부
+                    index.html 내부에 들어있습니다.
+                </p>
+            `;
+
+            modalBg.classList.add("active");
+
+        }
+
+
+        /* =========================
+           스크롤
+        ========================== */
+
+        function scrollToPosts() {
+
+            document
+                .getElementById("posts")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+
+        /* =========================
+           네비게이션 스크롤 효과
+        ========================== */
+
+        const nav =
+            document.getElementById("nav");
+
+
+        window.addEventListener(
+            "scroll",
+            () => {
+
+                if (window.scrollY > 20) {
+                    nav.classList.add("scrolled");
+                } else {
+                    nav.classList.remove("scrolled");
+                }
+
+            }
+        );
+
+
+        /* =========================
+           다크/라이트 모드
+        ========================== */
+
+        const themeBtn =
+            document.getElementById("themeBtn");
+
+
+        let dark =
+            true;
+
+
+        themeBtn.onclick = () => {
+
+            dark = !dark;
+
+            if (!dark) {
+
+                document.documentElement.style.setProperty(
+                    "--bg",
+                    "#f5f6fa"
+                );
+
+                document.documentElement.style.setProperty(
+                    "--card",
+                    "rgba(0,0,0,0.045)"
+                );
+
+                document.documentElement.style.setProperty(
+                    "--card-hover",
+                    "rgba(0,0,0,0.08)"
+                );
+
+                document.documentElement.style.setProperty(
+                    "--text",
+                    "#171923"
+                );
+
+                document.documentElement.style.setProperty(
+                    "--sub",
+                    "#656b78"
+                );
+
+                document.documentElement.style.setProperty(
+                    "--line",
+                    "rgba(0,0,0,0.08)"
+                );
+
+                themeBtn.textContent = "🌙";
+
+            } else {
+
+                document.documentElement.style.setProperty(
+                    "--bg",
+                    "#0b0d12"
+                );
+
+                document.documentElement.style.setProperty(
+                    "--card",
+                    "rgba(255,255,255,0.055)"
+                );
+
+                document.documentElement.style.setProperty(
+                    "--card-hover",
+                    "rgba(255,255,255,0.09)"
+                );
+
+                document.documentElement.style.setProperty(
+                    "--text",
+                    "#f5f7fb"
+                );
+
+                document.documentElement.style.setProperty(
+                    "--sub",
+                    "#9299a8"
+                );
+
+                document.documentElement.style.setProperty(
+                    "--line",
+                    "rgba(255,255,255,0.08)"
+                );
+
+                themeBtn.textContent = "☀️";
+
+            }
+
+        };
+
+
+        /* =========================
+           ESC로 모달 닫기
+        ========================== */
+
+        document.addEventListener(
+            "keydown",
+            e => {
+
+                if (e.key === "Escape") {
+                    closeModal();
+                }
+
+            }
+        );
+
+    </script>
+
 </body>
 </html>
