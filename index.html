@@ -3,53 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LOG.</title>
+  <title>LOG</title>
   <!-- Pretendard 폰트 -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  <!-- CSS 연결 (파일명이 style.css 인지 반드시 확인!) -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <!-- 헤더 영역 -->
+  <div class="layout">
+    <!-- 헤더 -->
     <header class="header">
-      <h1 class="logo">LOG<span>.</span></h1>
-      <button id="theme-toggle" class="theme-btn" aria-label="테마 전환">
-        <span class="theme-icon">🌙</span>
-      </button>
+      <a href="/" class="brand">LOG.</a>
+      <nav class="nav">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-dot"></span>
+          <span class="theme-text">Dark</span>
+        </button>
+      </nav>
     </header>
 
-    <!-- 프로필 영역 -->
-    <section class="profile">
-      <h2>안녕하세요, 기록을 좋아하는 <strong>홍길동</strong>입니다.</h2>
-      <p>일상과 웹 개발, 디테일에 대한 이야기를 심플하게 풀어나갑니다.</p>
+    <!-- Bio / Intro -->
+    <section class="intro">
+      <p class="intro-text">
+        디테일과 웹 경험을 기록합니다.<br />
+        프론트엔드 개발자 <strong>홍길동</strong>의 개인 블로그입니다.
+      </p>
     </section>
 
-    <!-- 블로그 포스트 목록 -->
-    <main class="post-list">
-      <article class="post-card">
-        <span class="post-date">2026. 08. 15</span>
-        <h3 class="post-title">모던 웹 디자인의 정수를 찾아서</h3>
-        <p class="post-excerpt">여백과 타이포그래피만으로도 감각적인 블로그를 만드는 CSS 테크닉에 대하여 이야기합니다.</p>
-        <div class="post-tags">
-          <span>#Design</span>
-          <span>#CSS</span>
-        </div>
-      </article>
+    <!-- 글 목록 (리스트 타입 & 메타 정보 강조) -->
+    <main class="feed">
+      <div class="feed-header">
+        <span>Recent Articles</span>
+        <span>(2)</span>
+      </div>
 
-      <article class="post-card">
-        <span class="post-date">2026. 08. 10</span>
-        <h3 class="post-title">TypeScript와 순수 DOM 조작하기</h3>
-        <p class="post-excerpt">프레임워크 없이 TypeScript만으로 매끄러운 다크모드 인터랙션을 구현한 과정입니다.</p>
-        <div class="post-tags">
-          <span>#TypeScript</span>
-          <span>#Web</span>
-        </div>
-      </article>
+      <div class="post-list">
+        <article class="post-item">
+          <a href="#" class="post-link">
+            <div class="post-main">
+              <h2 class="post-title">모던 웹 인터페이스의 정교함에 대하여</h2>
+              <p class="post-description">과한 화려함을 빼고, 여백과 타이포그래피만으로 레이아웃의 밀도를 높이는 실무 CSS 전략.</p>
+            </div>
+            <div class="post-meta">
+              <time datetime="2026-08-15">2026. 08. 15</time>
+              <span class="post-tag">Design</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="post-item">
+          <a href="#" class="post-link">
+            <div class="post-main">
+              <h2 class="post-title">TypeScript와 순수 DOM 조작으로 상태 관리하기</h2>
+              <p class="post-description">무거운 프레임워크 없이 오직 TypeScript와 Native Web API만 사용하여 매끄러운 UI를 구축한 경험.</p>
+            </div>
+            <div class="post-meta">
+              <time datetime="2026-08-10">2026. 08. 10</time>
+              <span class="post-tag">Dev</span>
+            </div>
+          </a>
+        </article>
+      </div>
     </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+      <p>© 2026 LOG. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="mailto:example@email.com">Email</a>
+      </div>
+    </footer>
   </div>
 
-  <!-- TypeScript를 컴파일한 JS 연결 (또는 Vite 환경인 경우 app.ts) -->
   <script type="module" src="app.js"></script>
 </body>
 </html>
