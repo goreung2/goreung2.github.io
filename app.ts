@@ -1,11 +1,13 @@
 type Theme = 'light' | 'dark';
 
-class BlogApp {
+class ModernBlog {
   private themeBtn: HTMLButtonElement | null;
+  private themeText: HTMLElement | null;
   private currentTheme: Theme = 'light';
 
   constructor() {
     this.themeBtn = document.getElementById('theme-toggle') as HTMLButtonElement;
+    this.themeText = this.themeBtn?.querySelector('.theme-text') || null;
     this.init();
   }
 
@@ -13,23 +15,16 @@ class BlogApp {
     const savedTheme = localStorage.getItem('theme') as Theme | null;
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    if (savedTheme) {
-      this.currentTheme = savedTheme;
-    } else if (systemPrefersDark) {
-      this.currentTheme = 'dark';
-    }
-
+    this.currentTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
     this.applyTheme(this.currentTheme);
     this.bindEvents();
   }
 
   private applyTheme(theme: Theme): void {
     document.documentElement.setAttribute('data-theme', theme);
-    if (this.themeBtn) {
-      const icon = this.themeBtn.querySelector('.theme-icon');
-      if (icon) {
-        icon.textContent = theme === 'dark' ? '☀️' : '🌙';
-      }
+    if (this.themeText) {
+      // 다크 모드일 땐 Light로 변경할 수 있도록 텍스트 표시
+      this.themeText.textContent = theme === 'dark' ? 'Light' : 'Dark';
     }
   }
 
@@ -39,17 +34,9 @@ class BlogApp {
       this.applyTheme(this.currentTheme);
       localStorage.setItem('theme', this.currentTheme);
     });
-
-    const cards = document.querySelectorAll('.post-card');
-    cards.forEach((card) => {
-      card.addEventListener('click', () => {
-        const title = card.querySelector('.post-title')?.textContent;
-        console.log(`선택된 포스트: ${title}`);
-      });
-    });
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  new BlogApp();
+  new ModernBlog();
 });
