@@ -11,7 +11,6 @@
 <style>
   :root{
     --bg: #EEF1EA;
-    --bg-soft: #E5E9DF;
     --card: #F9FAF6;
     --ink: #1B271F;
     --ink-soft: #55635A;
@@ -19,235 +18,85 @@
     --accent: #B8862E;
     --accent-2: #5C7A5E;
     --line: #D6DCCE;
-    --radius: 3px;
+    --radius: 4px;
   }
-
   *{ box-sizing: border-box; }
   html{ scroll-behavior: smooth; }
-
   body{
-    margin:0;
-    background: var(--bg);
-    color: var(--ink);
+    margin:0; background: var(--bg); color: var(--ink);
     font-family: 'Pretendard', -apple-system, sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
+    line-height:1.6; -webkit-font-smoothing: antialiased;
   }
-
-  a{ color: inherit; text-decoration: none; }
-
+  a{ color:inherit; text-decoration:none; }
   ::selection{ background: var(--accent); color: var(--bg); }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  button{ font-family:inherit; cursor:pointer; }
+  .wrap{ max-width:860px; margin:0 auto; padding:0 28px; }
 
-  :focus-visible{
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-  }
-
-  .wrap{
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 0 28px;
-  }
-
-  /* ---------- NAV ---------- */
-  header.site{
-    padding: 28px 0 0;
-  }
+  header.site{ padding:28px 0 0; }
   .nav{
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--line);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.02em;
-    color: var(--ink-soft);
+    display:flex; justify-content:space-between; align-items:center;
+    padding-bottom:20px; border-bottom:1px solid var(--line);
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--ink-soft);
   }
-  .nav .mark{
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--ink);
-  }
-  .nav ul{
-    list-style:none;
-    display:flex;
-    gap: 22px;
-    margin:0; padding:0;
-  }
-  .nav a{
-    position: relative;
-    padding-bottom: 2px;
-  }
-  .nav a::after{
-    content:'';
-    position:absolute;
-    left:0; bottom:-2px;
-    width:0; height:1px;
-    background: var(--accent);
-    transition: width .35s ease;
-  }
-  .nav a:hover::after{ width:100%; }
+  .nav .mark{ font-family:'Fraunces', serif; font-weight:600; font-size:18px; color:var(--ink); }
 
-  /* ---------- HERO ---------- */
-  .hero{
-    padding: 90px 0 70px;
-  }
-  .hero .eyebrow{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12.5px;
-    color: var(--accent-2);
-    letter-spacing: 0.08em;
-    margin-bottom: 18px;
-    opacity: 0;
-    animation: rise .7s ease forwards .1s;
-  }
-  h1.title{
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: clamp(40px, 7vw, 68px);
-    line-height: 1.12;
-    margin: 0 0 22px;
-    letter-spacing: -0.01em;
-  }
-  .typewriter{
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 2px solid var(--accent);
-    width: 0;
-    animation: typing 1.6s steps(9, end) .4s forwards,
-               blink .8s step-end infinite;
-  }
-  @keyframes typing{ from{ width:0 } to{ width: 9ch } }
-  @keyframes blink{ 50%{ border-color: transparent } }
+  .hero{ padding:70px 0 50px; }
+  .hero .eyebrow{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--accent-2); letter-spacing:.08em; margin-bottom:16px; }
+  h1.title{ font-family:'Fraunces', serif; font-weight:500; font-size:clamp(36px,6vw,58px); line-height:1.14; margin:0 0 18px; letter-spacing:-.01em; }
+  .hero p.sub{ font-size:16px; color:var(--ink-soft); max-width:480px; margin:0; }
+  .divider{ height:1px; background:var(--line); }
 
-  .hero p.sub{
-    font-size: 17px;
-    color: var(--ink-soft);
-    max-width: 480px;
-    margin: 0;
-    opacity: 0;
-    animation: rise .7s ease forwards 1.9s;
-  }
-
-  @keyframes rise{
-    from{ opacity:0; transform: translateY(10px); }
-    to{ opacity:1; transform: translateY(0); }
-  }
-
-  /* ---------- DIVIDER ---------- */
-  .divider{
-    height:1px;
-    background: var(--line);
-    margin: 0;
-  }
-
-  /* ---------- POSTS ---------- */
-  section.posts{ padding: 64px 0 100px; }
-  .posts .label{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12.5px;
-    color: var(--ink-faint);
-    letter-spacing: 0.08em;
-    margin-bottom: 30px;
-  }
+  section.posts{ padding:50px 0 100px; }
+  .posts .label{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-faint); letter-spacing:.08em; margin-bottom:26px; }
+  .empty-state, .error-state{ padding:50px 0; color:var(--ink-faint); font-size:14px; text-align:center; border:1px dashed var(--line); border-radius:var(--radius); }
+  .error-state{ color:#A5473A; border-color:#e3c9c4; }
 
   .post{
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 24px;
-    padding: 30px 0;
-    border-bottom: 1px solid var(--line);
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity .6s ease, transform .6s ease;
+    display:grid; grid-template-columns:100px 1fr; gap:24px;
+    padding:26px 0; border-bottom:1px solid var(--line);
+    opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease;
   }
-  .post.in-view{ opacity:1; transform: translateY(0); }
-  .post:hover .post-title{ color: var(--accent); }
-  .post:hover .thumb{ transform: scale(1.04); }
+  .post.in-view{ opacity:1; transform:translateY(0); }
+  .post .date{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-faint); padding-top:4px; }
+  .post-title{ font-family:'Fraunces', serif; font-weight:500; font-size:22px; margin:0 0 8px; position:relative; display:inline-block; cursor:pointer; transition:color .3s ease; }
+  .post-title:hover{ color:var(--accent); }
+  .post-title .underline{ position:absolute; left:0; bottom:-3px; height:1px; width:0; background:var(--accent); transition:width .4s ease; }
+  .post-title:hover .underline{ width:100%; }
+  .post .excerpt{ color:var(--ink-soft); font-size:14.5px; margin:0 0 12px; max-width:560px; }
+  .tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .tag{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--accent-2); background:var(--card); border:1px solid var(--line); padding:3px 9px; border-radius:var(--radius); }
 
-  .post .date{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12.5px;
-    color: var(--ink-faint);
-    padding-top: 4px;
-  }
+  footer{ padding:40px 0 60px; border-top:1px solid var(--line); }
+  .foot-row{ display:flex; justify-content:space-between; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-faint); flex-wrap:wrap; gap:10px; }
 
-  .post-title{
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 23px;
-    margin: 0 0 8px;
-    transition: color .3s ease;
-    position: relative;
-    display: inline-block;
+  .overlay{
+    position:fixed; inset:0; background:rgba(27,39,34,.5);
+    display:none; align-items:flex-start; justify-content:center;
+    padding:40px 20px; overflow-y:auto; z-index:50;
+    opacity:0; transition:opacity .25s ease;
   }
-  .post-title .underline{
-    position:absolute;
-    left:0; bottom:-3px;
-    height:1px;
-    width:0;
-    background: var(--accent);
-    transition: width .4s ease;
+  .overlay.show{ display:flex; opacity:1; }
+  .panel{
+    background:var(--card); border-radius:6px; max-width:680px; width:100%;
+    padding:40px; box-shadow:0 20px 60px rgba(27,39,34,.25);
+    transform:translateY(14px); transition:transform .3s ease;
   }
-  .post:hover .underline{ width: 100%; }
+  .overlay.show .panel{ transform:translateY(0); }
+  .panel-top{ display:flex; justify-content:flex-end; margin-bottom:10px; }
+  .closebtn{ background:none; border:none; font-size:20px; color:var(--ink-faint); line-height:1; }
+  .closebtn:hover{ color:var(--ink); }
+  .detail-date{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-faint); margin-bottom:10px; }
+  .detail-title{ font-family:'Fraunces', serif; font-size:32px; font-weight:500; margin:0 0 16px; }
+  .detail-body{ font-size:16px; color:var(--ink); white-space:pre-wrap; }
+  .detail-tags{ display:flex; gap:8px; margin-top:24px; }
 
-  .post .excerpt{
-    color: var(--ink-soft);
-    font-size: 15px;
-    margin: 0 0 12px;
-    max-width: 560px;
+  @media (max-width:560px){
+    .post{ grid-template-columns:1fr; gap:6px; }
+    .panel{ padding:26px; }
   }
-
-  .tags{
-    display:flex; gap:8px;
-  }
-  .tag{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11.5px;
-    color: var(--accent-2);
-    background: var(--card);
-    border: 1px solid var(--line);
-    padding: 3px 9px;
-    border-radius: var(--radius);
-  }
-
-  /* ---------- FOOTER ---------- */
-  footer{
-    padding: 40px 0 60px;
-    border-top: 1px solid var(--line);
-  }
-  footer .foot-row{
-    display:flex;
-    justify-content: space-between;
-    align-items:center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--ink-faint);
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  footer .foot-row a{
-    color: var(--ink-soft);
-    border-bottom: 1px solid transparent;
-    transition: border-color .25s ease, color .25s ease;
-  }
-  footer .foot-row a:hover{
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-
-  @media (max-width: 560px){
-    .post{ grid-template-columns: 1fr; gap: 6px; }
-    .post .date{ padding-top:0; }
-  }
-
   @media (prefers-reduced-motion: reduce){
-    *{ animation: none !important; transition: none !important; }
-    .hero .eyebrow, .hero p.sub{ opacity:1; transform:none; }
-    .typewriter{ width:auto; border-right:none; }
+    *{ transition:none !important; }
     .post{ opacity:1; transform:none; }
   }
 </style>
@@ -258,11 +107,6 @@
   <div class="wrap">
     <nav class="nav">
       <span class="mark">여백.</span>
-      <ul>
-        <li><a href="#">글</a></li>
-        <li><a href="#">소개</a></li>
-        <li><a href="#">구독</a></li>
-      </ul>
     </nav>
   </div>
 </header>
@@ -270,7 +114,7 @@
 <section class="hero">
   <div class="wrap">
     <p class="eyebrow">PERSONAL JOURNAL</p>
-    <h1 class="title">일상의 <span class="typewriter">여백에서</span><br>길어 올린 문장들</h1>
+    <h1 class="title">일상의 여백에서<br>길어 올린 문장들</h1>
     <p class="sub">거창한 주제보다는, 매일을 살며 스쳐 지나가는 생각을 붙잡아 적어두는 곳입니다.</p>
   </div>
 </section>
@@ -280,43 +124,7 @@
 <section class="posts">
   <div class="wrap">
     <p class="label">RECENT POSTS</p>
-
-    <article class="post">
-      <div class="date">08.14</div>
-      <div>
-        <h2 class="post-title">느리게 걷는 연습<span class="underline"></span></h2>
-        <p class="excerpt">빨리 가려는 마음을 조금 내려놓고 나서야 보이기 시작한 것들에 대하여.</p>
-        <div class="tags"><span class="tag">essay</span><span class="tag">일상</span></div>
-      </div>
-    </article>
-
-    <article class="post">
-      <div class="date">08.09</div>
-      <div>
-        <h2 class="post-title">책상 위의 작은 의식<span class="underline"></span></h2>
-        <p class="excerpt">매일 아침 같은 순서로 반복하는 사소한 행동들이 하루를 어떻게 바꾸는지.</p>
-        <div class="tags"><span class="tag">루틴</span></div>
-      </div>
-    </article>
-
-    <article class="post">
-      <div class="date">08.02</div>
-      <div>
-        <h2 class="post-title">비 오는 날의 문장<span class="underline"></span></h2>
-        <p class="excerpt">우산 없이 걷다가 문득 떠오른 문장 하나를 오래 붙잡고 있었던 오후.</p>
-        <div class="tags"><span class="tag">essay</span><span class="tag">기록</span></div>
-      </div>
-    </article>
-
-    <article class="post">
-      <div class="date">07.27</div>
-      <div>
-        <h2 class="post-title">읽고 있는 책 이야기<span class="underline"></span></h2>
-        <p class="excerpt">요즘 머리맡에 두고 조금씩 읽는 책과, 거기서 밑줄 그은 몇 줄에 대해.</p>
-        <div class="tags"><span class="tag">독서</span></div>
-      </div>
-    </article>
-
+    <div id="postList"></div>
   </div>
 </section>
 
@@ -329,17 +137,92 @@
   </div>
 </footer>
 
+<div class="overlay" id="detailOverlay">
+  <div class="panel">
+    <div class="panel-top">
+      <button class="closebtn" data-close="detailOverlay">✕</button>
+    </div>
+    <div class="detail-date" id="detailDate"></div>
+    <h2 class="detail-title" id="detailTitle"></h2>
+    <div class="detail-body" id="detailBody"></div>
+    <div class="detail-tags" id="detailTags"></div>
+  </div>
+</div>
+
 <script>
-  const posts = document.querySelectorAll('.post');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if(entry.isIntersecting){
-        setTimeout(() => entry.target.classList.add('in-view'), i * 90);
-        io.unobserve(entry.target);
-      }
+  const postList = document.getElementById('postList');
+
+  document.querySelectorAll('[data-close]').forEach(btn=>{
+    btn.addEventListener('click', ()=> document.getElementById(btn.dataset.close).classList.remove('show'));
+  });
+  document.querySelectorAll('.overlay').forEach(ov=>{
+    ov.addEventListener('click', (e)=>{ if(e.target === ov) ov.classList.remove('show'); });
+  });
+
+  function fmtDate(d){
+    const dt = new Date(d);
+    if(isNaN(dt)) return d;
+    return `${String(dt.getMonth()+1).padStart(2,'0')}.${String(dt.getDate()).padStart(2,'0')}`;
+  }
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+
+  function renderPosts(posts){
+    postList.innerHTML = '';
+    if(!posts || posts.length === 0){
+      postList.innerHTML = `<div class="empty-state">아직 posts.json에 글이 없어요.</div>`;
+      return;
+    }
+    const sorted = [...posts].sort((a,b)=> new Date(b.date) - new Date(a.date));
+    sorted.forEach(p=>{
+      const article = document.createElement('article');
+      article.className = 'post';
+      article.innerHTML = `
+        <div class="date">${fmtDate(p.date)}</div>
+        <div>
+          <h2 class="post-title" data-id="${p.id}">${escapeHtml(p.title)}<span class="underline"></span></h2>
+          <p class="excerpt">${escapeHtml(p.excerpt || '')}</p>
+          <div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+        </div>`;
+      postList.appendChild(article);
     });
-  }, { threshold: 0.15 });
-  posts.forEach(p => io.observe(p));
+
+    postList.querySelectorAll('.post-title').forEach(t=>{
+      t.addEventListener('click', ()=>{
+        const p = posts.find(x=> String(x.id) === t.dataset.id);
+        if(!p) return;
+        document.getElementById('detailDate').textContent = p.date;
+        document.getElementById('detailTitle').textContent = p.title;
+        document.getElementById('detailBody').textContent = p.content;
+        document.getElementById('detailTags').innerHTML = (p.tags||[]).map(x=>`<span class="tag">${escapeHtml(x)}</span>`).join('');
+        document.getElementById('detailOverlay').classList.add('show');
+      });
+    });
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach((entry,i)=>{
+        if(entry.isIntersecting){
+          setTimeout(()=> entry.target.classList.add('in-view'), i*80);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .15 });
+    document.querySelectorAll('.post').forEach(p=> io.observe(p));
+  }
+
+  fetch('posts.json', { cache: 'no-store' })
+    .then(res=>{
+      if(!res.ok) throw new Error('posts.json을 불러오지 못했습니다 (' + res.status + ')');
+      return res.json();
+    })
+    .then(renderPosts)
+    .catch(err=>{
+      postList.innerHTML = `<div class="error-state">글 목록을 불러오지 못했어요.<br>같은 폴더에 posts.json 파일이 있는지, 서버(로컬 서버 포함)를 통해 열었는지 확인해주세요.<br><small>${escapeHtml(err.message)}</small></div>`;
+    });
 </script>
 
 </body>
