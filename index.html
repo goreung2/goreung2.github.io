@@ -192,15 +192,7 @@
     });
 
     postList.querySelectorAll('.post-title').forEach(t=>{
-      t.addEventListener('click', ()=>{
-        const p = posts.find(x=> String(x.id) === t.dataset.id);
-        if(!p) return;
-        document.getElementById('detailDate').textContent = p.date;
-        document.getElementById('detailTitle').textContent = p.title;
-        document.getElementById('detailBody').textContent = p.content;
-        document.getElementById('detailTags').innerHTML = (p.tags||[]).map(x=>`<span class="tag">${escapeHtml(x)}</span>`).join('');
-        document.getElementById('detailOverlay').classList.add('show');
-      });
+      t.addEventListener('click', ()=> openPost(posts.find(x=> String(x.id) === t.dataset.id)));
     });
 
     const io = new IntersectionObserver((entries)=>{
@@ -214,14 +206,41 @@
     document.querySelectorAll('.post').forEach(p=> io.observe(p));
   }
 
-  fetch('posts.json', { cache: 'no-store' })
+  function openPost(meta){
+    if(!meta) return;
+    const dEl = document.getElementById('detailDate');
+    const tEl = document.getElementById('detailTitle');
+    const bEl = document.getElementById('detailBody');
+    const tagsEl = document.getElementById('detailTags');
+
+    dEl.textContent = meta.date;
+    tEl.textContent = meta.title;
+    bEl.textContent = '불러오는 중...';
+    tagsEl.innerHTML = (meta.tags||[]).map(x=>`<span class="tag">${escapeHtml(x)}</span>`).join('');
+    document.getElementById('detailOverlay').classList.add('show');
+
+    // 글 본문은 목록과 별개로, 클릭한 시점에 개별 파일에서 불러옵니다.
+    fetch(`posts/${meta.file || (meta.id + '.json')}`, { cache: 'no-store' })
+      .then(res=>{
+        if(!res.ok) throw new Error('posts/' + (meta.file || meta.id + '.json') + '을 불러오지 못했습니다 (' + res.status + ')');
+        return res.json();
+      })
+      .then(full=>{
+        bEl.textContent = full.content || '(내용 없음)';
+      })
+      .catch(err=>{
+        bEl.textContent = '본문을 불러오지 못했어요. ' + err.message;
+      });
+  }
+
+  fetch('posts/manifest.json', { cache: 'no-store' })
     .then(res=>{
-      if(!res.ok) throw new Error('posts.json을 불러오지 못했습니다 (' + res.status + ')');
+      if(!res.ok) throw new Error('posts/manifest.json을 불러오지 못했습니다 (' + res.status + ')');
       return res.json();
     })
     .then(renderPosts)
     .catch(err=>{
-      postList.innerHTML = `<div class="error-state">글 목록을 불러오지 못했어요.<br>같은 폴더에 posts.json 파일이 있는지, 서버(로컬 서버 포함)를 통해 열었는지 확인해주세요.<br><small>${escapeHtml(err.message)}</small></div>`;
+      postList.innerHTML = `<div class="error-state">글 목록을 불러오지 못했어요.<br>posts 폴더 안에 manifest.json이 있는지, 서버(로컬 서버 포함)를 통해 열었는지 확인해주세요.<br><small>${escapeHtml(err.message)}</small></div>`;
     });
 </script>
 
