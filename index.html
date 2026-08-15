@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>나의 첫 웹사이트</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimal & Modern Blog</title>
+  <!-- Pretendard 폰트 불러오기 -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>안녕하세요! GitHub Pages로 만든 사이트입니다.</h1>
-    <p>서버 비용 없이 무료로 웹사이트를 개설했습니다!</p>
+  <div class="container">
+    <!-- 헤더 영역 -->
+    <header class="header">
+      <h1 class="logo">LOG<span>.</span></h1>
+      <button id="theme-toggle" class="theme-btn" aria-label="테마 전환">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </header>
+
+    <!-- 프로필 영역 -->
+    <section class="profile">
+      <h2>안녕하세요, 기록을 좋아하는 <strong>홍길동</strong>입니다.</h2>
+      <p>일상과 웹 개발, 디테일에 대한 이야기를 심플하게 풀어나갑니다.</p>
+    </section>
+
+    <!-- 블로그 포스트 목록 -->
+    <main class="post-list">
+      <article class="post-card">
+        <span class="post-date">2026. 08. 15</span>
+        <h3 class="post-title">모던 웹 디자인의 정수를 찾아서</h3>
+        <p class="post-excerpt">여백과 타이포그래피만으로도 감각적인 블로그를 만드는 CSS 테크닉에 대하여 이야기합니다.</p>
+        <div class="post-tags">
+          <span>#Design</span>
+          <span>#CSS</span>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <span class="post-date">2026. 08. 10</span>
+        <h3 class="post-title">TypeScript와 순수 DOM 조작하기</h3>
+        <p class="post-excerpt">프레임워크 없이 TypeScript만으로 매끄러운 다크모드 인터랙션을 구현한 과정입니다.</p>
+        <div class="post-tags">
+          <span>#TypeScript</span>
+          <span>#Web</span>
+        </div>
+      </article>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
 </body>
 </html>
